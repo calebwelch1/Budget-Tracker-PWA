@@ -1,6 +1,7 @@
 // here we need to initialize webpack
 // make a service worker and tell it what we want to cache
 // tell webpack the source and where we want the bundle to be rendered
+// tell webpack to transpile with babel
 
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const path = require("path");
@@ -13,6 +14,18 @@ const config = {
     filename: "bundle.js",
   },
   mode: "production",
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: { presets: ["@babel/preset-env"] },
+        },
+      },
+    ],
+  },
   plugins: [
     new WebpackPwaManifest({
       filename: "manifest.json",
